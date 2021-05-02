@@ -8,6 +8,7 @@
 #include <getopt.h>
 #include <fcntl.h>
 #include <stdint.h>
+#include <./hashmap.h>
 
 /**
  * Name........: maskprocesspr (mp)
@@ -403,7 +404,7 @@ int main (int argc, char *argv[])
 
   if (max_chars)
   {
-    printf( "max chars" );
+    printf( "max chars %s\n", max_chars );
   }
 
   if (usage)
@@ -795,6 +796,16 @@ int main (int argc, char *argv[])
     exclude_data[i++] = token;
     token = strtok(NULL, "|");
   }
+
+  /* char * max_chars_data[1000]; */
+  /* i = 0; */
+  /* int len_excludes = 0; */
+  /* char * token = strtok(exclude_charset, "|"); */
+  /*  */
+  /* while( token != NULL ) { */
+  /*   exclude_data[i++] = token; */
+  /*   token = strtok(NULL, "|"); */
+  /* } */
 
   len_excludes = i;
 

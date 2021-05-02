@@ -2,7 +2,7 @@
 ##  Makefile for mp
 ##
 
-CFLAGS = -W -Wall -std=c99 -O2 -s
+CFLAGS = -W -Wall -std=c99 -O2 -s -I.
 #CFLAGS = -W -Wall -std=c99 -g
 
 CC_LINUX32        = gcc
