@@ -145,9 +145,6 @@ static char hex_convert (char c)
   return (c & 15) + (c >> 6) * 9;
 }
 
-/*
- *
- */
 static void add_cs_buf (const char *input_buf, cs_t *css, const int css_cnt)
 {
   size_t input_len = strlen (input_buf);
@@ -536,7 +533,6 @@ int main (int argc, char *argv[])
   if (custom_charset_2) mp_expand (custom_charset_2, strlen (custom_charset_2), mp_user[1], mp_sys, hex_charset);
   if (custom_charset_3) mp_expand (custom_charset_3, strlen (custom_charset_3), mp_user[2], mp_sys, hex_charset);
   if (custom_charset_4) mp_expand (custom_charset_4, strlen (custom_charset_4), mp_user[3], mp_sys, hex_charset);
-  /* if (exclude_charset)  mp_expand (exclude_charset,  strlen (exclude_charset),  mp_user[4], mp_sys, hex_charset); */
 
   /* files in */
 
@@ -567,8 +563,6 @@ int main (int argc, char *argv[])
   int css_cnt = 0;
 
   size_t line_pos;
-  /* printf ("line_len: %d\n", (int) line_len); */
-  /* printf ("line_buf: %s\n", line_buf); */
 
   for (line_pos = 0; line_pos < line_len; line_pos++)
   {
@@ -782,8 +776,6 @@ int main (int argc, char *argv[])
 
   out_t *out = malloc (sizeof (out_t));
 
-  /* printf( "len %d\n", (int) len); */
-
   char * exclude_data[100];
   int i = 0;
   int len_excludes = 0;
@@ -791,28 +783,17 @@ int main (int argc, char *argv[])
 
   while( token != NULL ) {
     exclude_data[i++] = token;
-    /* printf( "%s\n", token ); //printing each token */
     token = strtok(NULL, ":");
   }
 
   len_excludes = i;
 
-  /* for (i = 0; i < len_excludes; ++i) { */
-  /*   printf("%s\n", exclude_data[i]); */
-  /* } */
-
   for (len = min; len <= max; len++)
   {
     char word_buf[PW_MAX];
-    /* printf( "PW_MAX  %d\n", (int) PW_MAX); */
-    /* printf( "word_buf: %s\n", word_buf ); */
-    /* printf( "max: %d\n", max ); */
 
     word_buf[len] = '\n';
-    /* printf( "word_buf[len]: %c\n", word_buf[len] ); */
-
     int word_len = len + 1;
-    /* printf( "word_len %d\n", word_len ); */
 
     int occurs[256];
 
@@ -919,12 +900,9 @@ int main (int argc, char *argv[])
 
         for (i = 0; i < len_excludes; i++)
         {
-          /* printf( "%s", exclude_data[i] ); */
-
           if(strstr(word_buf, exclude_data[i]) != NULL)
           {
             found = 1;
-            /* printf( "%s is in %s\n", exclude_data[0], word_buf ); */
             break;
           }
         }
