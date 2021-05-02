@@ -77,6 +77,7 @@ static const char *USAGE_BIG[] =
   "       --hex-charset         Assume charset is given in hex",
   "  -q,  --seq-max=NUM         Maximum number of multiple sequential characters",
   "  -r,  --occurrence-max=NUM  Maximum number of occurrence of a character",
+  "  -M,  --max-chars=CS        space-separated charsets to exclude (ignores case) e.g. 'A:1 B:2 3:1'",
   "",
   "* Resources:",
   "",
@@ -93,7 +94,7 @@ static const char *USAGE_BIG[] =
   "  -2,  --custom-charset2=CS  Example:",
   "  -3,  --custom-charset3=CS  --custom-charset1=?dabcdef",
   "  -4,  --custom-charset4=CS  sets charset ?1 to 0123456789abcdef",
-  "  -X,  --exclude-charset4=CS comma-separated charsets to exclude",
+  "  -X,  --exclude-charset4=CS |-separated charsets to exclude",
   "",
   "* Built-in charsets:",
   "",
@@ -330,6 +331,7 @@ int main (int argc, char *argv[])
   char *custom_charset_3  = NULL;
   char *custom_charset_4  = NULL;
   char *exclude_charset   = NULL;
+  char *max_chars         = NULL;
 
   #define IDX_VERSION           'V'
   #define IDX_USAGE             'h'
@@ -346,6 +348,7 @@ int main (int argc, char *argv[])
   #define IDX_CUSTOM_CHARSET_3  '3'
   #define IDX_CUSTOM_CHARSET_4  '4'
   #define IDX_EXCLUDE_CHARSET   'X'
+  #define IDX_MAX_CHARS         'M'
 
   struct option long_options[] =
   {
@@ -359,6 +362,7 @@ int main (int argc, char *argv[])
     {"start-at",        required_argument, 0, IDX_START_AT},
     {"stop-at",         required_argument, 0, IDX_STOP_AT},
     {"output-file",     required_argument, 0, IDX_OUTPUT_FILE},
+    {"max-chars",       required_argument, 0, IDX_MAX_CHARS},
     {"custom-charset1", required_argument, 0, IDX_CUSTOM_CHARSET_1},
     {"custom-charset2", required_argument, 0, IDX_CUSTOM_CHARSET_2},
     {"custom-charset3", required_argument, 0, IDX_CUSTOM_CHARSET_3},
@@ -371,7 +375,7 @@ int main (int argc, char *argv[])
 
   int c;
 
-  while ((c = getopt_long (argc, argv, "Vhi:q:s:l:o:1:2:3:4:X:r:", long_options, &option_index)) != -1)
+  while ((c = getopt_long (argc, argv, "Vhi:q:s:l:o:1:2:3:4:X:r:M", long_options, &option_index)) != -1)
   {
     switch (c)
     {
@@ -391,9 +395,15 @@ int main (int argc, char *argv[])
       case IDX_CUSTOM_CHARSET_3:  custom_charset_3  = optarg;         break;
       case IDX_CUSTOM_CHARSET_4:  custom_charset_4  = optarg;         break;
       case IDX_EXCLUDE_CHARSET:   exclude_charset   = optarg;         break;
+      case IDX_MAX_CHARS:         max_chars         = optarg;         break;
 
       default: return (-1);
     }
+  }
+
+  if (max_chars)
+  {
+    printf( "max chars" );
   }
 
   if (usage)
@@ -776,14 +786,14 @@ int main (int argc, char *argv[])
 
   out_t *out = malloc (sizeof (out_t));
 
-  char * exclude_data[100];
+  char * exclude_data[1000];
   int i = 0;
   int len_excludes = 0;
-  char * token = strtok(exclude_charset, ":");
+  char * token = strtok(exclude_charset, "|");
 
   while( token != NULL ) {
     exclude_data[i++] = token;
-    token = strtok(NULL, ":");
+    token = strtok(NULL, "|");
   }
 
   len_excludes = i;
