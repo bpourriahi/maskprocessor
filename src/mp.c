@@ -929,7 +929,6 @@ int main (int argc, char *argv[])
 
       if (out->pos < OUTBUFSZ) continue;
 
-
       fwrite (out->buf, 1, out->pos, fp_out);
 
       out->pos = 0;
